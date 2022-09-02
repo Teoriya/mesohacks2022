@@ -26,7 +26,7 @@ module.exports = {
       response =>
         new Promise((resolve, reject) => {
           response.data
-            .pipe(fs.createWriteStream(id + "." + resp.data.mime_type.split("/")[1]))
+            .pipe(fs.createWriteStream("./media/"+id + "." + resp.data.mime_type.split("/")[1]))
             .on('finish', () => resolve())
             .on('error', e => reject(e));
         }),

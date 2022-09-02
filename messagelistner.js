@@ -1,4 +1,6 @@
 const {mediaFetcher,btn} = require("./whtsapapiutils")
+const client = require("./index")
+const test = require("./test")
 
 module.exports = async(req, res) => {
   // Parse the request body from the POST
@@ -7,32 +9,53 @@ module.exports = async(req, res) => {
     res.sendStatus(200);
     return;
   }
-  typeofdata = req.body.entry[0].changes[0].value.messages[0].type
-  console.log(typeofdata)
-  if(typeofdata == "image" || typeofdata == "video" || typeofdata == "document" ){
+  let dataType = req.body.entry[0].changes[0].value.messages[0].type
+  if(dataType == "image" || dataType == "video" || dataType == "document" ){
     //document
-    mediaId = (req.body.entry[0].changes[0].value.messages[0][typeofdata].id)
+    mediaId = (req.body.entry[0].changes[0].value.messages[0][dataType].id)
     await mediaFetcher(mediaId)
+    let raw = req.body.entry[0].changes[0].value
+    let caption = req.body.entry[0].changes[0].value.messages[0][dataType].caption
+    let from = req.body.entry[0].changes[0].value.messages[0].from
+    client.emit('messageDoccument',{raw,mediaId,dataType,caption,from})
+    res.sendStatus(200);
+    return;
   }
   
-  if(typeofdata == "interactive")
+  if(dataType == "interactive")
   {
-      //interactive message
+      //interactive mess
+    let raw = req.body.entry[0].changes[0].value
+    let from = req.body.entry[0].changes[0].value.messages[0].from
     
+    if(raw.messages[0].interactive.type == "button_reply")
+    {
+      buttonId = raw.messages[0].interactive.button_reply.id //to optimize later , as an original sendable object across code
+      buttonTitle = raw.messages[0].interactive.button_reply.title
+      {client.emit('buttonInteraction',{raw,buttonId,buttonTitle,dataType,from})}
+    }
+    else if(raw.messages[0].interactive.type == "list_reply")
+    {
+      listId = raw.messages[0].interactive.list_reply.id
+      listTitle = raw.messages[0].interactive.list_reply.title
+      listDescription = raw.messages[0].interactive.list_reply.title
+      client.emit('listInteraction',{raw,listId,listTitle,listDescription,dataType,from})
+    }
+    res.sendStatus(200);
+    return;
+  }
+  
+if(dataType == "text"){
+    //text
+
+  let raw = req.body.entry[0].changes[0].value
+  let content = req.body.entry[0].changes[0].value.messages[0].text.body
+  let timestamp = req.body.entry[0].changes[0].value.messages[0].timestamp
+  let from = req.body.entry[0].changes[0].value.messages[0].from
+  
+  client.emit('messageTxt',{raw,content,timestamp,dataType,from})
+  res.sendStatus(200);
+  return;
   }
 
-  console.log(JSON.stringify(req.body.entry[0].changes[0]))
-  // Check the Incoming webhook message
-  if (
-    req.body.entry &&
-    body.entry[0].changes &&
-    body.entry[0].changes[0] &&
-    body.entry[0].changes[0].value.messages &&
-    body.entry[0].changes[0].value.messages[0]
-  ) {
-    res.sendStatus(200);
   }
-  else
-    res.sendStatus(404)
-  // console.log(JSON.stringify(req.body, null, 2));
-}
