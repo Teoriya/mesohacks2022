@@ -1,5 +1,4 @@
 module.exports = async(req, res) => {
-
 const verify_token = process.env.VERIFY_TOKEN;
   // Parse params from the webhook verification request
   let mode = req.query["hub.mode"];
@@ -17,6 +16,4 @@ const verify_token = process.env.VERIFY_TOKEN;
       res.sendStatus(403);
     }
   }
-
-  
 }

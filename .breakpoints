@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "schemas/tagSchema.js": [
+      {
+        "id": "f2dae8e5-04ef-42b1-a459-805f69044c61",
+        "line": 9,
+        "version": 100,
+        "index": 280
+      }
+    ]
+  }
 }
