@@ -1,6 +1,6 @@
 const client = require("../index.js")
 const {sendInteractive} = require("../messagesender")
-const userSchema = require("../schemas/userSchema")
+const userSchema = require("../models/user.model.js")
 const {btn} = require("../utils/whtsapapiutils")
 const funcc = async ({from})=>{ 
   const result = await userSchema.findOne({phone:from})
@@ -10,4 +10,3 @@ const funcc = async ({from})=>{
 
 client.on("messageText",funcc)
 client.on("messageDoccument",funcc)
-//https://wa.me/1XXXXXXXXXX?text=I'm%20interested%20in%20your%20Managify%20Beta
