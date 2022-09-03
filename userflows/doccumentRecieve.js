@@ -7,17 +7,24 @@ const tagService = require("../services/tagService.js");
 const funcc = async ({ from }) => {
   const result = await userService.getByPhone(from);
   let sections = [];
-  result.subjects.forEach(subject => {
+  await Promise.all(result.subjects.map(async subject => {
     const tags = await tagService.getByPhoneAndSub(from, subject)
+    let rows = [];
+    tags.forEach((tag) => {
+      if (tag.deadline) {
+        rows.push({ id: tag.name, title: tag.name, description: tag.deadline })
+      }
+      else {
+        rows.push({ id: tag.name, title: tag.name })
+      }
+      rows.push({id:"createTag",title:"Create new Tag"})
+    })
     let section = {
-      title:
-      
+      title: subject,
+      rows
     }
-
-
-
-
-  })
+    sections.push(section)
+  }))
 
   if (result) { sendInteractiveList(from, sections, "Select", "Please select what is this resource related to.", "New Resource", "Managify") }
 }
@@ -58,3 +65,13 @@ client.on("messageDoccument", funcc)
                 }
               ]
   */
+
+// await Promise.all(coOrgIds.map(async (id) => {
+//   if (id === orgId) {
+//     coOrgIdsSameAsOrgId.push(id);
+//   }
+//   const isExists = await organizationService.checkExistsById(id, true);
+//   if (!isExists || id === orgId) {
+//     invalidCoorganizationIds.push(id);
+//   }
+// }));

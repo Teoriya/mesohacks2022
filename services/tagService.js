@@ -15,7 +15,7 @@ module.exports = {
   //Getting tag by Phone and Subject
   getByPhoneAndSub: async (phone, subject) => {
     try {
-      const data = await tag.findOne({ phone, subject });
+      const data = await tag.find({ phone, subject });
       return data;
     } catch (err) {
       throw err;

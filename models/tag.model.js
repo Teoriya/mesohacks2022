@@ -5,7 +5,7 @@ const tagSchema = Schema({//database aggregation (pipeline) to be implemented la
   phone: reqString,
   name: reqString,
   subject: reqString,
-  deadline: String,
+  deadline: String,//baadmestring
 });
 
 module.exports = model('tags', tagSchema);

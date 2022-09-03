@@ -2,7 +2,7 @@ const { model, Schema } = require('mongoose');
 const { reqString, reqNumber } = require('../utils/schemaUtils');
 
 const userSchema = Schema({
-  phone: reqNumber,
+  phone: reqString,
   name: reqString,
   rollNumber: reqString,
   otp: Number,
@@ -10,7 +10,7 @@ const userSchema = Schema({
   otpExpired: Boolean,
   semester: reqNumber,
   subjects: [String],
-  token:String;
+  token:String
 }, { timestamps: true });
 
 module.exports = model('users', userSchema);

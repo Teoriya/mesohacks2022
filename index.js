@@ -35,7 +35,3 @@ fs.readdir(directoryPath, function(err, files) {
 app.get("/", (req, res) => { res.send("NO Frontend , LOL :-P") })
 
 app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));// Sets server port and logs message on success
-const messageListener = require("./messagelistner");
-const verifier = require("./verification");
-app.post("/webhook", messageListener);// Accepts POST requests at /webhook endpoint
-app.get("/webhook", verifier);
