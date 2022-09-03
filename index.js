@@ -13,6 +13,11 @@ const dbURL = process.env.DBURL;
 const mongoose = require("mongoose");
 mongoose.connect(dbURL, {}).then(console.log('Connected to mongodb!'))
 
+//routes
+const userRoute = require('./routes/userRoute');
+const whatsappRoute = require("./routes/whatsappRoute")
+app.use("/user", userRoute);
+app.use("/whatsapp",whatsappRoute)
 
 //insantiating all userflows
 const path = require('path');
