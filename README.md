@@ -1,4 +1,4 @@
-# Foobar
+# SRM
 
 This project is currently a backend for a soon to become a Student Resource Management Portal
 
